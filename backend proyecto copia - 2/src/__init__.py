@@ -4,14 +4,12 @@ from flask import Flask, jsonify
 from flask_cors import CORS
 from dotenv import load_dotenv
 from sqlalchemy.exc import IntegrityError, SQLAlchemyError
-from src.config.config import config
-from src.models import Base, engine, session
-
-
-from src.routes import all_blueprints
-
 
 load_dotenv()
+
+from src.config.config import config
+from src.models import Base, engine, session
+from src.routes import all_blueprints
 
 
 def create_app(config_name=None):
@@ -111,6 +109,8 @@ def create_app(config_name=None):
         app.logger.exception(
             "No se pudo inicializar la base de datos"
         )
+
+        print("ERROR ORIGINAL:", repr(exc))
 
         raise RuntimeError(
             "No fue posible conectar o preparar la base de datos"
